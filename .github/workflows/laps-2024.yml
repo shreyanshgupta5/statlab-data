@@ -1,0 +1,27 @@
+# Runs on every push to the data-2024-laps branch: fetches every driver's lap times for the
+# 2024 São Paulo GP and commits the CSV back to this branch.
+name: Brazil 2024 all laps
+on:
+  push:
+    branches: [data-2024-laps]
+    paths: ["laps_brazil_2024.py", ".github/workflows/laps-2024.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install requests pandas
+      - run: python laps_brazil_2024.py
+      - name: Commit CSV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/brazil_2024_all_laps.csv
+          git commit -m "Add 2024 São Paulo GP lap times for all drivers [skip ci]" || echo "no change"
+          git push
