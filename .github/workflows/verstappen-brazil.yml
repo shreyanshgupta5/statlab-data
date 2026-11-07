@@ -1,0 +1,39 @@
+# Stat Lab · Max Verstappen at Interlagos, lap by lap, as CSVs.
+# Actions tab -> "Verstappen at Interlagos" -> Run workflow, then download "verstappen-brazil-csvs"
+# from the run page under "Artifacts".
+name: Verstappen at Interlagos
+
+on:
+  workflow_dispatch:
+    inputs:
+      first:
+        description: "First year"
+        default: "2015"
+      last:
+        description: "Last year"
+        default: "2025"
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: pip install requests pandas numpy
+
+      - name: Fetch
+        run: python verstappen_brazil_data.py --years ${{ inputs.first }} ${{ inputs.last }}
+
+      - name: Upload CSVs
+        uses: actions/upload-artifact@v4
+        with:
+          name: verstappen-brazil-csvs
+          path: verstappen_brazil_out/*.csv
+          if-no-files-found: warn
+          retention-days: 14
