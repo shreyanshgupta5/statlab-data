@@ -1,0 +1,23 @@
+pos,code,driver,team,grid,laps,status,points,time,fl_rank,fl_lap,fl_time
+1,HAM,Lewis Hamilton,Mercedes,1,71,Finished,25.0,3:01:01.335,3,44,1:25.639
+2,ROS,Nico Rosberg,Mercedes,2,71,Finished,18.0,+11.455,6,47,1:26.222
+3,VER,Max Verstappen,Red Bull,4,71,Finished,15.0,+21.481,1,67,1:25.305
+4,PER,Sergio Pérez,Force India,9,71,Finished,12.0,+25.346,11,41,1:27.093
+5,VET,Sebastian Vettel,Ferrari,5,71,Finished,10.0,+26.334,5,70,1:26.195
+6,SAI,Carlos Sainz,Toro Rosso,15,71,Finished,8.0,+29.160,13,38,1:27.153
+7,HUL,Nico Hülkenberg,Force India,8,71,Finished,6.0,+29.827,8,69,1:26.728
+8,RIC,Daniel Ricciardo,Red Bull,6,71,Finished,4.0,+30.486,2,42,1:25.532
+9,NAS,Felipe Nasr,Sauber,21,71,Finished,2.0,+42.620,15,70,1:27.547
+10,ALO,Fernando Alonso,McLaren,10,71,Finished,1.0,+44.432,12,70,1:27.104
+11,BOT,Valtteri Bottas,Williams,11,71,Finished,0.0,+45.292,4,70,1:26.062
+12,OCO,Esteban Ocon,Manor Marussia,22,71,Finished,0.0,+45.809,16,47,1:27.796
+13,KVY,Daniil Kvyat,Toro Rosso,14,71,Finished,0.0,+51.192,14,42,1:27.476
+14,MAG,Kevin Magnussen,Renault,18,71,Finished,0.0,+51.555,7,69,1:26.524
+15,WEH,Pascal Wehrlein,Manor Marussia,19,71,Finished,0.0,+1:00.498,18,69,1:27.919
+16,BUT,Jenson Button,McLaren,17,71,Finished,0.0,+1:21.994,10,38,1:26.983
+17,GUT,Esteban Gutiérrez,Haas F1 Team,12,60,Retired,0.0,,17,43,1:27.805
+18,MAS,Felipe Massa,Williams,13,46,Collision,0.0,,9,39,1:26.767
+19,PAL,Jolyon Palmer,Renault,16,20,Collision damage,0.0,,21,11,1:34.334
+20,RAI,Kimi Räikkönen,Ferrari,3,19,Collision,0.0,,19,12,1:28.847
+21,ERI,Marcus Ericsson,Sauber,20,11,Collision,0.0,,20,11,1:31.265
+22,GRO,Romain Grosjean,Haas F1 Team,7,0,Withdrew,0.0,,,,
