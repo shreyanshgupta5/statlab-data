@@ -1,0 +1,7 @@
+# voiceover: downloaded model, line cache and local espeak build
+voiceover/models/
+voiceover/cache/
+voiceover/espeak/
+voiceover/espeak-src/
+voiceover_out/
+__pycache__/

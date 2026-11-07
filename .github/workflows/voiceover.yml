@@ -1,0 +1,52 @@
+# Stat Lab · make a commentary voice track from a timed script (and optionally put it on a video).
+# Actions tab -> "Voiceover" -> Run workflow, then download "voiceover" under Artifacts.
+name: Voiceover
+
+on:
+  workflow_dispatch:
+    inputs:
+      script:
+        description: "Script file in the repo"
+        default: "voiceover/scripts/max_interlagos_2m15.txt"
+      voice:
+        description: "Voice (bm_george, bm_lewis, am_michael, am_fenrir ...)"
+        default: "bm_george"
+      video:
+        description: "Optional silent MP4 in the repo to put the voice on"
+        default: ""
+
+jobs:
+  voice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache voice model
+        uses: actions/cache@v4
+        with:
+          path: voiceover/models
+          key: kokoro-v1.0-int8
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null
+
+      - name: Set up voice
+        run: bash voiceover/setup.sh
+
+      - name: Make voiceover
+        run: |
+          python voiceover/make_voiceover.py "${{ inputs.script }}" --voice "${{ inputs.voice }}" \
+            --out "voiceover_out/voice_${{ inputs.voice }}.wav" \
+            ${{ inputs.video != '' && format('--video "{0}"', inputs.video) || '' }}
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: voiceover
+          path: voiceover_out/
+          retention-days: 14
