@@ -36,5 +36,6 @@ pits = get("pitstops")["RaceTable"]["Races"][0].get("PitStops", [])
 pin = {(code.get(p["driverId"]), int(p["lap"])) for p in pits}
 df["pit_in"] = [(d, l) in pin for d, l in zip(df.driver, df.lap)]
 df["pit_out"] = [(d, l - 1) in pin for d, l in zip(df.driver, df.lap)]
+import os; os.makedirs("data", exist_ok=True)
 df.sort_values(["lap", "position"]).to_csv("data/brazil_2024_all_laps.csv", index=False)
 print(len(df), "laps,", df.driver.nunique(), "drivers,", len(pits), "pit stops")
