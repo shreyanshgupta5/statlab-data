@@ -1,0 +1,26 @@
+# Runs on push to data-2024-laps when the 2016 script changes; commits the CSVs back to this branch.
+name: Brazil 2016 deep data
+on:
+  push:
+    branches: [data-2024-laps]
+    paths: ["brazil_2016_deep.py", ".github/workflows/brazil-2016.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install requests pandas
+      - run: python brazil_2016_deep.py
+      - name: Commit CSVs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/brazil2016
+          git commit -m "Add 2016 Brazilian GP deep data [skip ci]" || echo "no change"
+          git push
