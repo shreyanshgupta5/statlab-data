@@ -176,7 +176,7 @@ def history(first, last):
         c = res.loc[res["gained"].idxmax()]
         # race-day weather: race start (UTC) -> local hours for the archive
         start = pd.to_datetime(f"{race['date']}T{race.get('time', '17:00:00Z')}").tz_convert("America/Sao_Paulo")
-        wx = open_meteo(race["date"], [start.hour, start.hour + 1])
+        wx = open_meteo(race["date"], [start.hour, (start.hour + 1) % 24])
         sc = {}
         if y >= 2023:
             sess = openf1("sessions", year=y, country_name="Brazil", session_name="Race")

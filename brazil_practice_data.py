@@ -167,6 +167,7 @@ def practice_session(name, telemetry=True):
     laps["team"] = laps["driver_number"].map(lambda n: team_key(drivers.get(n, {}).get("team_name", "")))
     # tyre per lap from the stints table
     laps["compound"] = None
+    laps["stint"] = np.nan                            # stays empty if OpenF1 has no stints yet (else KeyError below)
     if not stints.empty:
         for _, st in stints.iterrows():
             m = (laps["driver_number"] == st["driver_number"]) & (laps["lap_number"] >= st["lap_start"]) & \
@@ -193,7 +194,9 @@ def practice_session(name, telemetry=True):
     cls.insert(0, "pos", range(1, len(cls) + 1))
     cls["gap"] = (cls["best"] - cls["best"].iloc[0]).round(3)
     ideal = cls[["s1", "s2", "s3"]].min()             # best sectors of the session (theoretical best lap)
-    cls["ideal_lap"] = (cls[["s1", "s2", "s3"]].sum(axis=1, min_count=3)).round(3)
+    # ideal lap per driver: their best S1 + best S2 + best S3 from any lap
+    best_secs = timed.groupby("driver_number")[["duration_sector_1", "duration_sector_2", "duration_sector_3"]].min()
+    cls["ideal_lap"] = cls["number"].map(best_secs.sum(axis=1, min_count=3)).round(3)
 
     # long runs: stints with 5+ clean laps; drop laps >107% of the stint median (traffic, cool-down)
     lr = []
@@ -213,6 +216,8 @@ def practice_session(name, telemetry=True):
 
     # weather summary
     wx = {}
+    if not weather.empty:
+        weather = weather[weather["track_temperature"] > 0]   # drop sensor drop-outs that read 0 °C
     if not weather.empty:
         wx = {"air_min": weather["air_temperature"].min(), "air_max": weather["air_temperature"].max(),
               "track_min": weather["track_temperature"].min(), "track_max": weather["track_temperature"].max(),
